@@ -1,66 +1,62 @@
-const menu = {
-  
-    courses : {
-   
-    appetizers : [],
-   
-    mains : [],
-   
-    desserts : [],
-    },
+var menu = {
+  courses: {
+    appetizers: [{name :'calamari', price: 18}],
+    mains:  [{name: 'steak', price: 30}],
+    desserts: [{name: 'cake', price: 12}]
+  },
 
-    get appetizers() {
-      return this.courses.appetizers;
-    },
-    get mains() {
-      return this.courses.mains;
-    },
-    get desserts() {
-      return this.courses.desserts;
-    },
-
-     get courses() {
-      return{
-        appetizers : this.appetizers,
-        mains : this.mains,
-        desserts : this.desserts,
-      };
-    },
-
-
-  addDishToCourse(courseName, dishName, dishPrice) {
-     const dish = {
+  addDishToCourse : function (courseName, dishName, dishPrice){
+   var dish = {
       name: dishName,
-      price: dishPrice,
-    };
-    return this.courses [courseName].push(dish);
-  },
-    getRandomDishFromCourse(courseName) {
-      const dishes = this.courses[courseName];
-     const randomIndex = Math.floor(Math.random() * dishes.length);
-     return dishes[randomIndex];
-  },
-  generateRandomMeal() {
-    const appetizers = this.getRandomDishFromCourse('appetizers');
-    const main = this.getRandomDishFromCourse('mains');
-    const dessert = this.getRandomDishFromCourse('desserts');
-    const totalPrice = appetizer.price + main.price + dessert.price;
-  },
-};
+      price: dishPrice
+  };
+  
+  if (courseName === 'appetizer') {
+    menu.courses.appetizers.push(dish);
+  } else if (courseName === 'main') {
+    menu.courses.mains.push(dish);
+  } else if (courseName === 'dessert') {
+    menu.courses.desserts.push(dish);
+  } else {
+    console.log('Sorry not an option');
+  }
+},
+getRandomDishFromCourse : function (courseName) {
+  var dishes = menu.courses[courseName];
 
-    menu.addDishToCourse('appetizers', 'Crab Cakes', 16.00);
-menu.addDishToCourse('appetizers', 'House Salad', 16.00);
-menu.addDishToCourse('appetizers', 'Artichoke Dip', 12.00);
+const dishIndex = Math.floor(Math.random() * dishes.length);
 
-menu.addDishToCourse('mains', 'Burger', 20.00);
-menu.addDishToCourse('mains', 'Lobster Roll', 24.00);
-menu.addDishToCourse('mains', 'Seafood Pasta', 26.00);
+return dishes[dishIndex];
+},
+generateRandomMeal : function () {
+  const appetizer = menu.getRandomDishFromCourse('appetizers');
+  const main = menu.getRandomDishFromCourse('mains');
+  const dessert = menu.getRandomDishFromCourse('desserts');
+  
+  const meal = [appetizer, main, dessert];
 
-menu.addDishToCourse('desserts', 'Sorbet', 10.00);
-menu.addDishToCourse('desserts', 'Lava Cake', 10.00);
-menu.addDishToCourse('desserts', 'Creme Brulee', 10.00);
+  const mealPrice = meal.reduce( function (acc, course) {
+    return acc += course.price;
+  }, 0);
 
-const meal = menu.generateRandomMeal();
-console.log(meal);
+  console.log(`you will be eating ${appetizer.name}, ${main.name} and ${dessert.name}, it will cost $${mealPrice}` );
 
-//not working properly
+
+}
+}; 
+menu.addDishToCourse('appetizer', 'sashimi',12);
+menu.addDishToCourse('appetizer', 'crab dip',15);
+menu.addDishToCourse('appetizer', 'poke',10);
+
+menu.addDishToCourse('main', 'crab', 20);
+menu.addDishToCourse('main', 'lobster', 30);
+menu.addDishToCourse('main', 'beef wellington',45);
+
+menu.addDishToCourse('dessert', 'mochi', 10);
+menu.addDishToCourse('dessert', 'upside down cake', 10);
+menu.addDishToCourse('dessert', 'gelato', 10);
+
+
+
+menu.generateRandomMeal();
+
